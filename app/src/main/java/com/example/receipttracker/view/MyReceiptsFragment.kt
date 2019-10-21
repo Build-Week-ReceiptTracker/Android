@@ -43,9 +43,9 @@ class MyReceiptsFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val data = receipts[position]
-            holder.amountView.text = data.purchaseAmount.toString()
+            holder.amountView.text = data.amount_spent.toString()
             holder.categoryView.text = data.category
-            holder.dateView.text = data.date.toString()
+            holder.dateView.text = data.date_of_transaction.toString()
             holder.merchantView.text = data.merchant
         }
 
