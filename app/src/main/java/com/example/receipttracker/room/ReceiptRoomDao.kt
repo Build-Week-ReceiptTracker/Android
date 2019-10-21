@@ -4,7 +4,7 @@ import androidx.room.*
 import com.example.receipttracker.model.Receipt
 
 @Dao
-interface ReceiptDao {
+interface ReceiptRoomDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(receipt: Receipt)

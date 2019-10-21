@@ -9,7 +9,7 @@ import com.example.receipttracker.model.Receipt
 @Database(entities = [Receipt::class], exportSchema = true, version = 1)
 abstract class ReceiptDatabase : RoomDatabase() {
 
-    abstract fun receiptDao(): ReceiptDao
+    abstract fun receiptDao(): ReceiptRoomDao
 
     companion object {
         private var instance: ReceiptDatabase? = null
