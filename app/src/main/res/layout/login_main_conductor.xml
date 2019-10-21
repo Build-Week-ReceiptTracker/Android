@@ -7,11 +7,20 @@
     tools:context=".view.LoginActivity">
 
     <EditText
+        android:id="@+id/et_conductor_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
         android:id="@+id/et_conductor_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Username"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_conductor_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -29,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Confirm Password"
-        app:layout_constraintTop_toBottomOf="@+id/et_conductor_username"
+        app:layout_constraintTop_toBottomOf="@+id/et_conductor_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -39,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
+        app:layout_constraintTop_toBottomOf="@+id/et_conductor_password_confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

@@ -5,7 +5,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object ReceiptApiBuilder {
 
-    private const val BASE_URL = "TODO()"
+    private const val BASE_URL = "https://api-receipt-tracker.herokuapp.com/"
 
     private val retrofit = Retrofit
         .Builder()
@@ -14,5 +14,4 @@ object ReceiptApiBuilder {
         .build()
 
     val receiptApi = retrofit.create(ReceiptApi::class.java)
-
 }
