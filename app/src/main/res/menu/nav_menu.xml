@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_first"
+            android:title="First"/>
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_second"
+            android:title="Second"/>
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_third"
+            android:title="Third"/>
+
+    </group>
+
+
+</menu>
