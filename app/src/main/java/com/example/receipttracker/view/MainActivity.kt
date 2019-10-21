@@ -1,13 +1,13 @@
-package com.example.receipttracker
+package com.example.receipttracker.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import com.example.receipttracker.R
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -16,10 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Launch MyReceipts fragment by default
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, MyReceiptsFragment()).commit()
+
+        //Initialize Navigation Drawer
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
-
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer)
@@ -29,14 +32,27 @@ class MainActivity : AppCompatActivity() {
 
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
 
+        //Set listeners for nav drawer
         navigationView.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
 
-            when(menuItem.itemId) {
+            var selectedFragment: Fragment? = null
+            when (menuItem.itemId) {
+                R.id.nav_category_my_receipts -> {
+                    selectedFragment = MyReceiptsFragment()
+                    title = "My Receipts"
+                }
+                R.id.nav_category_add_receipt -> {
+                    selectedFragment = AddReceiptFragment()
+                    title = "Add Receipt"
+                }
+            }
+            selectedFragment?.let { it1 ->
 
-                R.id.nav_category_first -> { Toast.makeText(this, "First", Toast.LENGTH_LONG).show() }
-                R.id.nav_category_second -> { Toast.makeText(this, "Second", Toast.LENGTH_LONG).show() }
-                R.id.nav_category_third -> { Toast.makeText(this, "Third", Toast.LENGTH_LONG).show() }
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.nav_host_fragment,
+                    it1
+                ).commit()
             }
 
             drawerLayout.closeDrawers()
