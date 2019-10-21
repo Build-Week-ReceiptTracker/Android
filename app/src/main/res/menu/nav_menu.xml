@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_my_receipts"
+            android:title="My Receipts"/>
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_add_receipt"
+            android:title="Add Receipt"/>
+        <item
+            android:checkable="true"
+            android:id="@+id/nav_category_third"
+            android:title="Other"/>
+
+    </group>
+
+
+</menu>

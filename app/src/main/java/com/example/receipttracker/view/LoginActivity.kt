@@ -1,8 +1,10 @@
-package com.example.receipttracker
+package com.example.receipttracker.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.receipttracker.App
+import com.example.receipttracker.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
