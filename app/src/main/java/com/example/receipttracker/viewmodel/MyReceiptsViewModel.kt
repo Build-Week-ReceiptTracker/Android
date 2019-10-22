@@ -11,4 +11,10 @@ class MyReceiptsViewModel : ViewModel() {
     fun getAllReceipts(token: String): MutableLiveData<MutableList<Receipt>>? {
         return repo?.getAllReceipts(token)
     }
+
+
+    fun deleteReceipt(token: String, id: Int): MutableLiveData<String>? {
+        return repo?.deleteReceipt(token, id)
+    }
+
 }

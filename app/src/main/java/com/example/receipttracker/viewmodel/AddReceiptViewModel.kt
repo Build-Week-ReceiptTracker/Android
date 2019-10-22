@@ -15,11 +15,5 @@ class AddReceiptViewModel : ViewModel() {
     }
 
 
-    fun deleteReceipt(token: String, id: Int) {
-        repo?.deleteReceipt(token, id)
-    }
 
-    fun editReceipt(token: String, id: Int, receipt: Receipt) {
-        repo?.editReceipt(token, id, receipt)
-    }
 }

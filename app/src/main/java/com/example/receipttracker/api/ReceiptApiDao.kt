@@ -102,11 +102,42 @@ class ReceiptApiDao {
         return getAllReceiptsResponse
     }
 
-    fun deleteReceipt(token: String, id: Int) {
-        ReceiptApiBuilder.receiptApi.deleteReceipt(token, id)
+    fun deleteReceipt(token: String, id: Int): MutableLiveData<String> {
+        ReceiptApiBuilder.receiptApi.deleteReceipt(token, id.toString()).enqueue(object : Callback<Void> {
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                deleteReceiptResponse.value = "Failed to connect to API"
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    deleteReceiptResponse.value = "Successfully Deleted"
+                    getAllReceipts(App.repo?.currentToken!!)
+
+                } else {
+                    deleteReceiptResponse.value = "Failed to delete from API"
+                    Log.i("BIGBRAIN", response.message())
+                }
+            }
+        })
+        return deleteReceiptResponse
     }
 
-    fun editReceipt(token: String, id: Int, receipt: Receipt) {
-        ReceiptApiBuilder.receiptApi.editReceipt(token, id, receipt)
+    fun editReceipt(token: String, id: Int, receipt: Receipt): MutableLiveData<String> {
+        ReceiptApiBuilder.receiptApi.editReceipt(token, id, receipt).enqueue(object: Callback<Void> {
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                editReceiptResponse.value = "Failed to connect to API"
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    editReceiptResponse.value = "Successfully Edited Receipt"
+                } else {
+                    editReceiptResponse.value = "Failed to edit receipt on API"
+                }
+            }
+        })
+        return editReceiptResponse
     }
 }

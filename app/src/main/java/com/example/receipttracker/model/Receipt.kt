@@ -2,6 +2,7 @@ package com.example.receipttracker.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "receipt_table")
@@ -16,7 +17,7 @@ class Receipt (
 
     @PrimaryKey
     var id: Int?
-    )
+    ): Serializable
 
 data class User(val username: String, val password: String, val email: String? = null)
 

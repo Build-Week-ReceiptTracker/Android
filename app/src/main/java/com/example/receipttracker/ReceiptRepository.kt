@@ -43,12 +43,12 @@ class ReceiptRepository (context: Context) {
         return ReceiptApiDao.apiDaoInstance?.getAllReceipts(token)
     }
 
-    fun deleteReceipt(token: String, id: Int) {
-        ReceiptApiDao.apiDaoInstance?.deleteReceipt(token, id)
+    fun deleteReceipt(token: String, id: Int): MutableLiveData<String>? {
+       return ReceiptApiDao.apiDaoInstance?.deleteReceipt(token, id)
     }
 
-    fun editReceipt(token: String, id: Int, receipt: Receipt) {
-        ReceiptApiDao.apiDaoInstance?.editReceipt(token, id, receipt)
+    fun editReceipt(token: String, id: Int, receipt: Receipt): MutableLiveData<String>? {
+        return ReceiptApiDao.apiDaoInstance?.editReceipt(token, id, receipt)
     }
 
     fun insert(receipt: Receipt) {

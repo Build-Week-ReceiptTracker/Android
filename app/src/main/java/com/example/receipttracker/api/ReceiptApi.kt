@@ -23,7 +23,7 @@ interface ReceiptApi {
     fun getAllReceipts(@Header("Authorization") token: String): Call<MutableList<Receipt>>
 
     @DELETE("/api/auth/receipts/{id}/del")
-    fun deleteReceipt(@Header("Authorizaiton") token: String, @Path("id") id: Int): Call<Void>
+    fun deleteReceipt(@Header("Authorization") token: String, @Path("id") id: String): Call<Void>
 
     @PUT("/api/auth/receipts/{id}/")
     fun editReceipt(@Header("Authorization") token: String, @Path("id") id: Int, @Body receipt: Receipt): Call<Void>
