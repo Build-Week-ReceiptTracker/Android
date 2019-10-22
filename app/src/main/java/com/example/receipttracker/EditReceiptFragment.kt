@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.receipttracker.model.Receipt
+import com.example.receipttracker.view.MyReceiptsFragment
 import kotlinx.android.synthetic.main.add_receipt_fragment.*
 import kotlinx.android.synthetic.main.edit_receipt_fragment.*
 
@@ -18,7 +19,7 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
 
     val oldReceipt = receipt
 
-    
+
 
     private lateinit var viewModel: EditReceiptViewModel
 
@@ -61,6 +62,10 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
                     ?.observe(this, Observer {
                         if (it != null) {
                             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                            if (it == "Successfully Edited Receipt") {
+                                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, MyReceiptsFragment())?.commit()
+                            }
+
                         }
                     })
             }
