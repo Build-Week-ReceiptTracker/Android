@@ -12,8 +12,11 @@ interface ReceiptRoomDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(receipt: Receipt)
 
-    @Delete
-    fun delete(receipt: Receipt)
+    @Query("DELETE FROM receipt_table")
+    fun deleteAllReceipts()
+
+    @Query("DELETE FROM receipt_table WHERE id = :id")
+    fun deleteReceiptById(id: Int)
 
     @Query("SELECT * FROM receipt_table")
     fun getAllReceipts(): MutableList<Receipt>
