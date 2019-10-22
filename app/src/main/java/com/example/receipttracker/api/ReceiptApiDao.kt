@@ -1,7 +1,11 @@
 package com.example.receipttracker.api
 
+import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.example.receipttracker.App
+import com.example.receipttracker.model.PostReceiptResponse
+import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.model.Token
 import com.example.receipttracker.model.User
 import retrofit2.Call
@@ -19,9 +23,12 @@ class ReceiptApiDao {
             }
     }
 
-    //TODO: add necessary retrofitcalls
+    val addReceiptReponse = MutableLiveData<String>()
+    val editReceiptResponse = MutableLiveData<String>()
+    val deleteReceiptResponse = MutableLiveData<String>()
+    val getAllReceiptsResponse = MutableLiveData<MutableList<Receipt>>()
 
-    lateinit var userToken: String
+    //TODO: add necessary retrofitcalls
 
     fun login(username: String, password: String){
         ReceiptApiBuilder.receiptApi.loginUser(User(username, password)).enqueue(object :
@@ -33,7 +40,7 @@ class ReceiptApiDao {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 val token = response.body()
                 if (token != null){
-                    userToken = token.token
+                    val userToken = token.token
                     saveTokenAndUser(userToken, username)
                 }
             }
@@ -55,5 +62,82 @@ class ReceiptApiDao {
                 val int = 0
             }
         })
+    }
+
+    fun addReceipt(token: String, receipt: Receipt): MutableLiveData<String> {
+        Log.i("BIGBRAIN", token)
+        ReceiptApiBuilder.receiptApi.addReceipt(token, receipt).enqueue(object : Callback<PostReceiptResponse> {
+            override fun onFailure(call: Call<PostReceiptResponse>, t: Throwable) {
+                Log.i("BIGBRAIN", t.toString())
+                addReceiptReponse.value = "Failed to add receipt $t"
+            }
+
+            override fun onResponse(call: Call<PostReceiptResponse>, response: Response<PostReceiptResponse>) {
+                Log.i("BIGBRAIN", response.toString() + response.body()?.receiptID + response.body()?.message)
+                if (response.isSuccessful) {
+                    addReceiptReponse.value = "Receipt Added"
+                } else {
+                    addReceiptReponse.value = "Failed to add receipt ${response.errorBody()}"
+                }
+            }
+        })
+        return addReceiptReponse
+    }
+
+    fun getAllReceipts(token: String): MutableLiveData<MutableList<Receipt>> {
+        ReceiptApiBuilder.receiptApi.getAllReceipts(token).enqueue(object: Callback<MutableList<Receipt>>{
+
+            override fun onFailure(call: Call<MutableList<Receipt>>, t: Throwable) {
+                getAllReceiptsResponse.value = null
+            }
+
+            override fun onResponse(call: Call<MutableList<Receipt>>, response: Response<MutableList<Receipt>>) {
+                if(response.isSuccessful) {
+                    getAllReceiptsResponse.value = response.body()
+                } else {
+                    getAllReceiptsResponse.value = null
+                }
+            }
+        })
+        return getAllReceiptsResponse
+    }
+
+    fun deleteReceipt(token: String, id: Int): MutableLiveData<String> {
+        ReceiptApiBuilder.receiptApi.deleteReceipt(token, id.toString()).enqueue(object : Callback<Void> {
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                deleteReceiptResponse.value = "Failed to connect to API"
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    deleteReceiptResponse.value = "Successfully Deleted"
+                    getAllReceipts(App.repo?.currentToken!!)
+
+                } else {
+                    deleteReceiptResponse.value = "Failed to delete from API"
+                    Log.i("BIGBRAIN", response.message())
+                }
+            }
+        })
+        return deleteReceiptResponse
+    }
+
+    fun editReceipt(token: String, id: Int, receipt: Receipt): MutableLiveData<String> {
+        ReceiptApiBuilder.receiptApi.editReceipt(token, id, receipt).enqueue(object: Callback<Void> {
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                editReceiptResponse.value = "Failed to connect to API"
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    editReceiptResponse.value = "Successfully Edited Receipt"
+                } else {
+                    editReceiptResponse.value = "Failed to edit receipt on API"
+                }
+            }
+        })
+        return editReceiptResponse
     }
 }
