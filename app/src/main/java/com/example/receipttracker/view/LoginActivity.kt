@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.bluelinelabs.conductor.Conductor
+import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.receipttracker.App
 import com.example.receipttracker.R
@@ -17,6 +18,8 @@ class LoginActivity : AppCompatActivity() {
     val viewModel by lazy {
         ViewModelProviders.of(this).get(LoginViewModel::class.java)
     }
+
+    lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val token: String? = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
@@ -36,10 +39,17 @@ class LoginActivity : AppCompatActivity() {
 
         // Handle conductor when user clicks Register button
         button_register.setOnClickListener {
-            val router = Conductor.attachRouter(this, constraint_parent, savedInstanceState)
+            router = Conductor.attachRouter(this, constraint_parent, savedInstanceState)
             if (!router.hasRootController()){
                 router.setRoot(RouterTransaction.with(RegisterController()))
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!router.handleBack()) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            //super.onBackPressed()
         }
     }
 }
