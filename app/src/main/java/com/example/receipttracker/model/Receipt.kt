@@ -19,3 +19,5 @@ class Receipt (
 data class User(val username: String, val password: String, val email: String? = null)
 
 data class Token(val token: String, val message: String)
+
+data class PostReceiptResponse(val receiptID: String, val message: String)

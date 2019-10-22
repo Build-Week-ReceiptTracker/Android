@@ -56,4 +56,12 @@ class ReceiptApiDao {
             }
         })
     }
+
+    fun addReceipt() {}
+
+    fun getAllReceipts() {}
+
+    fun deleteReceipt() {}
+
+    fun editReceipt() {}
 }

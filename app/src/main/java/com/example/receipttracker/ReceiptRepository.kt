@@ -11,6 +11,14 @@ class ReceiptRepository (context: Context) {
 
     private val receiptRoomDao: ReceiptRoomDao
 
+    val currentUser by lazy {
+        App.sharedPrefs.getString(App.NAME_PREF_KEY, "")
+    }
+
+    val currentToken by lazy {
+        App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
+    }
+
     init {
         val database: ReceiptDatabase = ReceiptDatabase.getInstance(context)!!
         receiptRoomDao = database.receiptDao()
