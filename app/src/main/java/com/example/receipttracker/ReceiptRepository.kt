@@ -32,6 +32,22 @@ class ReceiptRepository (context: Context) {
         ReceiptApiDao.apiDaoInstance?.register(username, password, email)
     }
 
+    fun addReceipt(token: String, receipt: Receipt) {
+        ReceiptApiDao.apiDaoInstance?.addReceipt(token, receipt)
+    }
+
+    fun getAllReceipts(token: String) {
+        ReceiptApiDao.apiDaoInstance?.getAllReceipts(token)
+    }
+
+    fun deleteReceipt(token: String, id: Int) {
+        ReceiptApiDao.apiDaoInstance?.deleteReceipt(token, id)
+    }
+
+    fun editReceipt(token: String, id: Int, receipt: Receipt) {
+        ReceiptApiDao.apiDaoInstance?.editReceipt(token, id, receipt)
+    }
+
     fun insert(receipt: Receipt) {
         InsertReceiptAsyncTask(receiptRoomDao).execute(receipt)
     }

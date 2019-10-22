@@ -1,7 +1,10 @@
 package com.example.receipttracker.api
 
+import android.util.Log
 import android.widget.Toast
 import com.example.receipttracker.App
+import com.example.receipttracker.model.PostReceiptResponse
+import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.model.Token
 import com.example.receipttracker.model.User
 import retrofit2.Call
@@ -21,8 +24,6 @@ class ReceiptApiDao {
 
     //TODO: add necessary retrofitcalls
 
-    lateinit var userToken: String
-
     fun login(username: String, password: String){
         ReceiptApiBuilder.receiptApi.loginUser(User(username, password)).enqueue(object :
             Callback<Token>{
@@ -33,7 +34,7 @@ class ReceiptApiDao {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 val token = response.body()
                 if (token != null){
-                    userToken = token.token
+                    val userToken = token.token
                     saveTokenAndUser(userToken, username)
                 }
             }
@@ -57,11 +58,29 @@ class ReceiptApiDao {
         })
     }
 
-    fun addReceipt() {}
+    fun addReceipt(token: String, receipt: Receipt) {
+        Log.i("BIGBRAIN", token)
+        ReceiptApiBuilder.receiptApi.addReceipt(token, receipt).enqueue(object : Callback<PostReceiptResponse> {
+            override fun onFailure(call: Call<PostReceiptResponse>, t: Throwable) {
+                Log.i("BIGBRAIN", t.toString())
+            }
 
-    fun getAllReceipts() {}
+            override fun onResponse(call: Call<PostReceiptResponse>, response: Response<PostReceiptResponse>) {
+                Log.i("BIGBRAIN", response.toString() + response.body()?.receiptID + response.body()?.message)
+            }
 
-    fun deleteReceipt() {}
+        })
+    }
 
-    fun editReceipt() {}
+    fun getAllReceipts(token: String) {
+        ReceiptApiBuilder.receiptApi.getAllReceipts(token)
+    }
+
+    fun deleteReceipt(token: String, id: Int) {
+        ReceiptApiBuilder.receiptApi.deleteReceipt(token, id)
+    }
+
+    fun editReceipt(token: String, id: Int, receipt: Receipt) {
+        ReceiptApiBuilder.receiptApi.editReceipt(token, id, receipt)
+    }
 }

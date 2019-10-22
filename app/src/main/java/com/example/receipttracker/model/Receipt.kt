@@ -10,7 +10,9 @@ class Receipt (
     var date_of_transaction: String,
     var category: String,
     var merchant: String,
-    var image: String?,
+    var image_url: String?,
+    var user_username: String,
+    var description: String,
 
     @PrimaryKey
     var id: Int?

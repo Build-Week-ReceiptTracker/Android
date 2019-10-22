@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.receipttracker.viewmodel.AddReceiptViewModel
 import com.example.receipttracker.R
+import com.example.receipttracker.model.Receipt
+import kotlinx.android.synthetic.main.add_receipt_fragment.*
 
 
 class AddReceiptFragment : Fragment() {
@@ -29,6 +31,21 @@ class AddReceiptFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddReceiptViewModel::class.java)
         // TODO: Use the ViewModel
+
+        button_add_receipt.setOnClickListener {
+            val newReceipt = Receipt(
+                et_amount_spent.text.toString(),
+                et_date_of_transaction.text.toString(),
+                et_category.text.toString(),
+                et_merchant.text.toString(),
+                "",
+                viewModel.repo?.currentUser!!,
+                et_description.text.toString(),
+                0
+            )
+
+            viewModel.addReceipt(viewModel.repo?.currentToken!!, newReceipt)
+        }
     }
 
 }

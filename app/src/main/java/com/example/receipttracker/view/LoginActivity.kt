@@ -22,10 +22,10 @@ class LoginActivity : AppCompatActivity() {
     lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val token: String? = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
+        /*val token: String? = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
         if (token != null && token.isNotEmpty()){
             startActivity(Intent(this, MainActivity::class.java))
-        }
+        }*/
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
