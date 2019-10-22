@@ -2,6 +2,7 @@ package com.example.receipttracker.api
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.example.receipttracker.App
 import com.example.receipttracker.model.PostReceiptResponse
 import com.example.receipttracker.model.Receipt
@@ -21,6 +22,11 @@ class ReceiptApiDao {
                 return field
             }
     }
+
+    val addReceiptReponse = MutableLiveData<String>()
+    val editReceiptResponse = MutableLiveData<String>()
+    val deleteReceiptResponse = MutableLiveData<String>()
+    val getAllReceiptsResponse = MutableLiveData<MutableList<Receipt>>()
 
     //TODO: add necessary retrofitcalls
 
@@ -58,22 +64,42 @@ class ReceiptApiDao {
         })
     }
 
-    fun addReceipt(token: String, receipt: Receipt) {
+    fun addReceipt(token: String, receipt: Receipt): MutableLiveData<String> {
         Log.i("BIGBRAIN", token)
         ReceiptApiBuilder.receiptApi.addReceipt(token, receipt).enqueue(object : Callback<PostReceiptResponse> {
             override fun onFailure(call: Call<PostReceiptResponse>, t: Throwable) {
                 Log.i("BIGBRAIN", t.toString())
+                addReceiptReponse.value = "Failed to add receipt $t"
             }
 
             override fun onResponse(call: Call<PostReceiptResponse>, response: Response<PostReceiptResponse>) {
                 Log.i("BIGBRAIN", response.toString() + response.body()?.receiptID + response.body()?.message)
+                if (response.isSuccessful) {
+                    addReceiptReponse.value = "Receipt Added"
+                } else {
+                    addReceiptReponse.value = "Failed to add receipt ${response.errorBody()}"
+                }
             }
-
         })
+        return addReceiptReponse
     }
 
-    fun getAllReceipts(token: String) {
-        ReceiptApiBuilder.receiptApi.getAllReceipts(token)
+    fun getAllReceipts(token: String): MutableLiveData<MutableList<Receipt>> {
+        ReceiptApiBuilder.receiptApi.getAllReceipts(token).enqueue(object: Callback<MutableList<Receipt>>{
+
+            override fun onFailure(call: Call<MutableList<Receipt>>, t: Throwable) {
+                getAllReceiptsResponse.value = null
+            }
+
+            override fun onResponse(call: Call<MutableList<Receipt>>, response: Response<MutableList<Receipt>>) {
+                if(response.isSuccessful) {
+                    getAllReceiptsResponse.value = response.body()
+                } else {
+                    getAllReceiptsResponse.value = null
+                }
+            }
+        })
+        return getAllReceiptsResponse
     }
 
     fun deleteReceipt(token: String, id: Int) {
