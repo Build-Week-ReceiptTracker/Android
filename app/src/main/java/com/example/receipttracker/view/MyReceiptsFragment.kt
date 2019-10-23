@@ -50,6 +50,24 @@ class MyReceiptsFragment : Fragment() {
         viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer {
             if(it != null) {
                 rv_my_receipts.adapter = ReceiptListAdapter(it)
+
+
+                /*
+                var amount_spent: String,
+    var date_of_transaction: String,
+    var category: String,
+    var merchant: String,
+    var image_url: String?,
+    var description: String,*/
+
+                button.setOnClickListener{
+                    it.foreach{ receipt ->
+                        if (receipt.contains(et_text.text.toString()){
+
+                            }
+                    }
+                }
+
             } else {
                 Toast.makeText(this.context, "Failed to get receipts", Toast.LENGTH_LONG).show()
             }
