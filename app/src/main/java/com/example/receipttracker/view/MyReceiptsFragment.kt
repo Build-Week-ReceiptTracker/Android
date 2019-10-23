@@ -2,7 +2,6 @@ package com.example.receipttracker.view
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import com.example.receipttracker.R
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.MyReceiptsViewModel
 import kotlinx.android.synthetic.main.my_receipts_fragment.*
-import kotlinx.android.synthetic.main.receipt_item_list_view.*
 import kotlinx.android.synthetic.main.receipt_item_list_view.view.*
 
 class MyReceiptsFragment : Fragment() {
@@ -47,11 +45,28 @@ class MyReceiptsFragment : Fragment() {
             adapter = ReceiptListAdapter(mutableListOf<Receipt>())
         }
 
-        viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer {
-            if(it != null) {
-                rv_my_receipts.adapter = ReceiptListAdapter(it)
+        viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer { receiptsList ->
+            if(receiptsList != null) {
+                rv_my_receipts.adapter = ReceiptListAdapter(receiptsList)
+
+                // button is used to return receipts containing user's string
+                var searchList = mutableListOf<Receipt>()
+                btn_search.setOnClickListener{
+                    val userSearch = et_search.text.toString()
+                    if (userSearch == ""){
+                        rv_my_receipts.adapter = ReceiptListAdapter(receiptsList)
+                    }else{
+                        searchList.clear()
+                        receiptsList.forEach {
+                            if (viewModel.isUserStringInReceipt(it, userSearch)) searchList.add(it)
+                        }
+                        rv_my_receipts.adapter = ReceiptListAdapter(searchList)
+                    }
+
+                }
+
             } else {
-                Toast.makeText(this.context, "Failed to get receipts", Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, "Failed to get receiptsList", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -67,29 +82,20 @@ class MyReceiptsFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val data = receipts[position]
-            holder.amountView.text = data.amount_spent.toString()
+            holder.amountView.text = data.amount_spent
             holder.categoryView.text = data.category
-            holder.dateView.text = data.date_of_transaction.toString()
+            holder.dateView.text = data.date_of_transaction
             holder.merchantView.text = data.merchant
             holder.idView.text = data.id.toString()
             holder.cardView.setOnClickListener {
                 EditReceiptFragment(data).let {
-                    //it.arguments?.putSerializable("RECEIPT", data)
                     activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, it)?.commit()
                 }
             }
             holder.cardView.setOnLongClickListener {
-
-//                receiptList.forEach {
-//                    if (it.id == data.id) {
-//                        receiptList.remove(it)
-//                    }
-//                }
-
                 viewModel.deleteReceipt(viewModel.repo?.currentToken!!, data.id!!)?.observe(this@MyReceiptsFragment, Observer {
                     if (it != null) Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 })
-                //this.notifyDataSetChanged()
                 true
             }
         }
