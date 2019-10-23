@@ -2,6 +2,7 @@ package com.example.receipttracker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cloudinary.android.MediaManager
 import com.example.receipttracker.App
 import com.example.receipttracker.model.Receipt
 

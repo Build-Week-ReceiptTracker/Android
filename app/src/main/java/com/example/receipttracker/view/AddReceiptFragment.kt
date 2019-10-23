@@ -1,5 +1,8 @@
 package com.example.receipttracker.view
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.cloudinary.android.MediaManager
 import com.example.receipttracker.viewmodel.AddReceiptViewModel
 import com.example.receipttracker.R
 import com.example.receipttracker.model.Receipt
@@ -18,6 +22,7 @@ class AddReceiptFragment : Fragment() {
 
     companion object {
         fun newInstance() = AddReceiptFragment()
+        const val IMAGE_REQUEST_CODE = 42
     }
 
     private lateinit var viewModel: AddReceiptViewModel
@@ -32,7 +37,16 @@ class AddReceiptFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddReceiptViewModel::class.java)
-        // TODO: Use the ViewModel
+        //config.("cloud_name", "http://res.cloudinary.com/djqqksunp")
+        //MediaManager.get()
+
+
+        button_add_photo.setOnClickListener {
+            //figure out how to add photo
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, IMAGE_REQUEST_CODE)
+        }
 
         button_add_receipt.setOnClickListener {
             val newReceipt = Receipt(
@@ -54,4 +68,13 @@ class AddReceiptFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val photoUri: Uri? = data?.data
+            if (photoUri != null) {
+                iv_receipt_photo.setImageURI(Uri.parse(photoUri.toString()))
+            }
+        }
+    }
 }
