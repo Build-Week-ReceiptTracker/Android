@@ -17,4 +17,12 @@ class MyReceiptsViewModel : ViewModel() {
         return repo?.deleteReceipt(token, id)
     }
 
+    fun isUserStringInReceipt(receipt: Receipt, userSearch: String): Boolean{
+        return receipt.amount_spent.toLowerCase().contains(userSearch.toLowerCase()) ||
+                receipt.date_of_transaction.toLowerCase().contains(userSearch.toLowerCase()) ||
+                receipt.category.toLowerCase().contains(userSearch.toLowerCase()) ||
+                receipt.merchant.toLowerCase().contains(userSearch.toLowerCase()) ||
+                receipt.description.toLowerCase().contains(userSearch.toLowerCase())
+    }
+
 }
