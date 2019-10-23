@@ -3,10 +3,13 @@ package com.example.receipttracker
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.cloudinary.android.MediaManager
 
 class App: Application() {
 
     // TODO Access Shared Preferences
+
+    //lateinit var mediaManager: MediaManager
 
     companion object{
         var repo: ReceiptRepository? = null
@@ -19,7 +22,7 @@ class App: Application() {
         super.onCreate()
         sharedPrefs = getSharedPreferences("Token", Context.MODE_PRIVATE)
         repo = ReceiptRepository(this)
-
+        MediaManager.init(this)
 
     }
 }
