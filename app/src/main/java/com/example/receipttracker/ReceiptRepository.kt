@@ -19,6 +19,8 @@ class ReceiptRepository (context: Context) {
     init {
         val database: ReceiptDatabase = ReceiptDatabase.getInstance(context)!!
         receiptRoomDao = database.receiptDao()
+        currentUser = App.sharedPrefs.getString(App.NAME_PREF_KEY, "").toString()
+        currentToken = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "").toString()
     }
 
     fun resetUserAndToken() {

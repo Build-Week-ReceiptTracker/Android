@@ -23,13 +23,13 @@ class LoginActivity : AppCompatActivity() {
     lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
         /*val token: String? = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
         if (token != null && token.isNotEmpty()){
             startActivity(Intent(this, MainActivity::class.java))
         }*/
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
         button_login.setOnClickListener {
             val user = et_username.text.toString()
@@ -37,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(user, password)?.observe(this, Observer {
                 if (it == true) startActivity(Intent(this, MainActivity::class.java))
             })
-
         }
 
         // Handle conductor when user clicks Register button

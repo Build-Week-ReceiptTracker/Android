@@ -30,7 +30,6 @@ class MyReceiptsFragment : Fragment() {
 
     private lateinit var viewModel: MyReceiptsViewModel
     lateinit var receiptListAdapter: ReceiptListAdapter
-    private var receiptList = mutableListOf<Receipt>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.my_receipts_fragment, container, false)
@@ -41,19 +40,16 @@ class MyReceiptsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MyReceiptsViewModel::class.java)
         // TODO: Use the ViewModel
 
-        receiptList.clear()
 
-        receiptListAdapter = ReceiptListAdapter(receiptList)
         rv_my_receipts.apply {
             setHasFixedSize(false)
             layoutManager = LinearLayoutManager(context)
-            adapter = receiptListAdapter
+            adapter = ReceiptListAdapter(mutableListOf<Receipt>())
         }
 
         viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer {
             if(it != null) {
-                receiptList = it
-                rv_my_receipts.adapter = ReceiptListAdapter(receiptList)
+                rv_my_receipts.adapter = ReceiptListAdapter(it)
             } else {
                 Toast.makeText(this.context, "Failed to get receipts", Toast.LENGTH_LONG).show()
             }
@@ -83,9 +79,17 @@ class MyReceiptsFragment : Fragment() {
                 }
             }
             holder.cardView.setOnLongClickListener {
+
+//                receiptList.forEach {
+//                    if (it.id == data.id) {
+//                        receiptList.remove(it)
+//                    }
+//                }
+
                 viewModel.deleteReceipt(viewModel.repo?.currentToken!!, data.id!!)?.observe(this@MyReceiptsFragment, Observer {
                     if (it != null) Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 })
+                //this.notifyDataSetChanged()
                 true
             }
         }

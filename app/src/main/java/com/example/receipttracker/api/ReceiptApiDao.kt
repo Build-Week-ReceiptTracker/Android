@@ -49,7 +49,7 @@ class ReceiptApiDao {
                         loginResponse.value = true
                     }
                 } else {
-                    Log.i("BIGBRAIN", response.body()!!.message)
+                    Log.i("BIGBRAIN", response.body()?.message ?: "Response Not Successful")
                 }
             }
         })
@@ -61,7 +61,7 @@ class ReceiptApiDao {
         App.sharedPrefs.edit().remove(App.TOKEN_PREF_KEY).apply()
         App.sharedPrefs.edit().putString(App.TOKEN_PREF_KEY, token).apply()
         App.sharedPrefs.edit().putString(App.NAME_PREF_KEY, username).apply()
-        App.repo?.resetUserAndToken()
+        //App.repo?.resetUserAndToken()
 
     }
 
