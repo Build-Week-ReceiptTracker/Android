@@ -11,10 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.cloudinary.android.MediaManager
-import com.example.receipttracker.viewmodel.AddReceiptViewModel
+import com.example.receipttracker.viewmodel.AddEditReceiptViewModel
 import com.example.receipttracker.R
 import com.example.receipttracker.model.Receipt
+import com.example.receipttracker.viewmodel.AddEditReceiptViewModel.Companion.WAIT_KEY
 import kotlinx.android.synthetic.main.add_receipt_fragment.*
 
 
@@ -25,7 +25,8 @@ class AddReceiptFragment : Fragment() {
         const val IMAGE_REQUEST_CODE = 42
     }
 
-    private lateinit var viewModel: AddReceiptViewModel
+    private var imageUrl: String? = null
+    private lateinit var viewModel: AddEditReceiptViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +37,9 @@ class AddReceiptFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AddReceiptViewModel::class.java)
-        //config.("cloud_name", "http://res.cloudinary.com/djqqksunp")
-        //MediaManager.get()
-
+        viewModel = ViewModelProviders.of(this).get(AddEditReceiptViewModel::class.java)
 
         button_add_photo.setOnClickListener {
-            //figure out how to add photo
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
             startActivityForResult(intent, IMAGE_REQUEST_CODE)
@@ -54,7 +51,7 @@ class AddReceiptFragment : Fragment() {
                 et_date_of_transaction.text.toString(),
                 et_category.text.toString(),
                 et_merchant.text.toString(),
-                "",
+                imageUrl ?: "",
                 viewModel.repo?.currentUser!!,
                 et_description.text.toString(),
                 null
@@ -74,6 +71,13 @@ class AddReceiptFragment : Fragment() {
             val photoUri: Uri? = data?.data
             if (photoUri != null) {
                 iv_receipt_photo.setImageURI(Uri.parse(photoUri.toString()))
+                viewModel.uploadReceiptPhoto(photoUri)?.observe(this, Observer {
+                    if (it != WAIT_KEY) {
+                        if (it.isNotBlank()) {
+                            imageUrl = it
+                        } else Toast.makeText(this.context, "Failed to upload image", Toast.LENGTH_LONG).show()
+                    }
+                })
             }
         }
     }
