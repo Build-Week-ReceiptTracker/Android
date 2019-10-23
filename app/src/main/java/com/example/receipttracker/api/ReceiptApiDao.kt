@@ -27,29 +27,42 @@ class ReceiptApiDao {
     val editReceiptResponse = MutableLiveData<String>()
     val deleteReceiptResponse = MutableLiveData<String>()
     val getAllReceiptsResponse = MutableLiveData<MutableList<Receipt>>()
+    val loginResponse = MutableLiveData<Boolean>()
 
     //TODO: add necessary retrofitcalls
 
-    fun login(username: String, password: String){
+    fun login(username: String, password: String): MutableLiveData<Boolean>{
+        loginResponse.value = false
         ReceiptApiBuilder.receiptApi.loginUser(User(username, password)).enqueue(object :
             Callback<Token>{
             override fun onFailure(call: Call<Token>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.i("BIGBRAIN", t.toString())
             }
 
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
-                val token = response.body()
-                if (token != null){
-                    val userToken = token.token
-                    saveTokenAndUser(userToken, username)
+                if (response.isSuccessful) {
+                    val token = response.body()
+                    if (token != null) {
+                        Log.i("BIGBRAIN", response.body()?.token.toString())
+                        val userToken = response.body()?.token.toString()
+                        saveTokenAndUser(userToken, username)
+                        loginResponse.value = true
+                    }
+                } else {
+                    Log.i("BIGBRAIN", response.body()!!.message)
                 }
             }
         })
+        return loginResponse
     }
 
     fun saveTokenAndUser(token: String, username: String){
+        App.sharedPrefs.edit().remove(App.NAME_PREF_KEY).apply()
+        App.sharedPrefs.edit().remove(App.TOKEN_PREF_KEY).apply()
         App.sharedPrefs.edit().putString(App.TOKEN_PREF_KEY, token).apply()
         App.sharedPrefs.edit().putString(App.NAME_PREF_KEY, username).apply()
+        App.repo?.resetUserAndToken()
+
     }
 
     fun register(username: String, password: String, email: String){
@@ -89,6 +102,7 @@ class ReceiptApiDao {
 
             override fun onFailure(call: Call<MutableList<Receipt>>, t: Throwable) {
                 getAllReceiptsResponse.value = null
+                Log.i("BIGBRAIN", t.toString())
             }
 
             override fun onResponse(call: Call<MutableList<Receipt>>, response: Response<MutableList<Receipt>>) {
@@ -96,6 +110,7 @@ class ReceiptApiDao {
                     getAllReceiptsResponse.value = response.body()
                 } else {
                     getAllReceiptsResponse.value = null
+                    Log.i("BIGBRAIN", response.toString())
                 }
             }
         })

@@ -41,6 +41,8 @@ class MyReceiptsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MyReceiptsViewModel::class.java)
         // TODO: Use the ViewModel
 
+        receiptList.clear()
+
         receiptListAdapter = ReceiptListAdapter(receiptList)
         rv_my_receipts.apply {
             setHasFixedSize(false)

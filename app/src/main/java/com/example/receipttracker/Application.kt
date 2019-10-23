@@ -17,8 +17,9 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        sharedPrefs = getSharedPreferences("Token", Context.MODE_PRIVATE)
         repo = ReceiptRepository(this)
 
-        sharedPrefs = getSharedPreferences("Token", Context.MODE_PRIVATE)
+
     }
 }

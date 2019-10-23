@@ -3,6 +3,7 @@ package com.example.receipttracker.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
@@ -33,8 +34,10 @@ class LoginActivity : AppCompatActivity() {
         button_login.setOnClickListener {
             val user = et_username.text.toString()
             val password = et_password.text.toString()
-            viewModel.login(user, password)
-            startActivity(Intent(this, MainActivity::class.java))
+            viewModel.login(user, password)?.observe(this, Observer {
+                if (it == true) startActivity(Intent(this, MainActivity::class.java))
+            })
+
         }
 
         // Handle conductor when user clicks Register button

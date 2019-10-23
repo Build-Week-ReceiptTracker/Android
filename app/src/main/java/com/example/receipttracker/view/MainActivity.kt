@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bluelinelabs.conductor.Conductor
+import com.example.receipttracker.App
 import com.example.receipttracker.R
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_login.*
@@ -74,9 +75,16 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.sign_out -> {
                 // TODO Sign out
+                App.sharedPrefs.edit().remove(App.NAME_PREF_KEY).commit()
+                App.sharedPrefs.edit().remove(App.TOKEN_PREF_KEY).commit()
+                //App.sharedPrefs.edit().clear().apply()
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

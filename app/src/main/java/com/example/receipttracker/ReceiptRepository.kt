@@ -13,22 +13,23 @@ class ReceiptRepository (context: Context) {
 
     private val receiptRoomDao: ReceiptRoomDao
 
-    val currentUser by lazy {
-        App.sharedPrefs.getString(App.NAME_PREF_KEY, "")
-    }
-
-    val currentToken by lazy {
-        App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
-    }
-
+    lateinit var currentUser: String
+    lateinit var currentToken: String
 
     init {
         val database: ReceiptDatabase = ReceiptDatabase.getInstance(context)!!
         receiptRoomDao = database.receiptDao()
     }
 
-    fun login(username: String, password: String){
-        ReceiptApiDao.apiDaoInstance?.login(username, password)
+    fun resetUserAndToken() {
+        if (App.sharedPrefs.getString(App.NAME_PREF_KEY, "") != null && App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "") != null) {
+            currentUser = App.sharedPrefs.getString(App.NAME_PREF_KEY, "").toString()
+            currentToken = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "").toString()
+        }
+    }
+
+    fun login(username: String, password: String): MutableLiveData<Boolean>?{
+        return ReceiptApiDao.apiDaoInstance?.login(username, password)
     }
 
     fun register(username: String, password: String, email: String){
