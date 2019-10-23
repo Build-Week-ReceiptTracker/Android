@@ -5,9 +5,11 @@ import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.MyReceiptsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 
 class MyReceiptsViewModelTests {
-    //private val repoMock = mock(ReceiptRepository::class.java)
+    private val repoMock = mock(ReceiptRepository::class.java)
     private val myReceiptsViewModel = MyReceiptsViewModel()
     private val receipt = Receipt("20.00",
         "2019-10-23",
@@ -69,8 +71,7 @@ class MyReceiptsViewModelTests {
 
     @Test
     fun getAllReceiptsTest(){
-        val repoMock = mock(ReceiptRepository::class.java)
-        `when`(repoMock.getAllReceipts(mockToken).thenReturn(liveDataList))
+        `when`(repoMock.getAllReceipts(mockToken)).thenReturn(liveDataList)
 
         val expected = liveDataList
         val result = myReceiptsViewModel.getAllReceipts(mockToken)
@@ -81,8 +82,7 @@ class MyReceiptsViewModelTests {
     @Test
     fun deleteReceiptTestReturnString(){
         val id = receipt.id!!
-        val repoMock = mock(ReceiptRepository::class.java)
-        `when`(repoMock.deleteReceipt(mockToken, id).thenReturn(liveDataString))
+        `when`(repoMock.deleteReceipt(mockToken, id)).thenReturn(liveDataString)
 
         val expected = liveDataString
         val result = myReceiptsViewModel.deleteReceipt(mockToken, id)
