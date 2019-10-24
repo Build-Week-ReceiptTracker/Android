@@ -25,20 +25,33 @@ class RegisterController : Controller() {
     override fun onChangeStarted(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeStarted(changeHandler, changeType)
 
-        view?.findViewById<Button>(R.id.button_conductor_register)?.setOnClickListener {
-            val email = view?.findViewById<EditText>(R.id.et_conductor_email)?.text .toString()
-            val username = view?.findViewById<EditText>(R.id.et_conductor_username)?.text.toString()
-            val password = view?.findViewById<EditText>(R.id.et_conductor_password)?.text.toString()
-            val passwordConfirm = view?.findViewById<EditText>(R.id.et_conductor_password_confirm)?.text.toString()
-
+        fun passwordsAreValid(password: String, passwordConfirm: String): Boolean{
             if (password != passwordConfirm){
                 Toast.makeText(activity, "Passwords Don't Match", Toast.LENGTH_SHORT).show()
+                return false
             }else if(password.isEmpty() || passwordConfirm.isEmpty()){
                 Toast.makeText(activity, "Blank Password Field", Toast.LENGTH_SHORT).show()
-            }else{
+                return false
+            }
+            return true
+        }
+
+        fun getEditTextInput(id: Int): String{
+            return view?.findViewById<EditText>(id)?.text.toString()
+        }
+
+        view?.findViewById<Button>(R.id.button_conductor_register)?.setOnClickListener {
+            val email = getEditTextInput(R.id.et_conductor_email)
+            val username = getEditTextInput(R.id.et_conductor_username)
+            val password = getEditTextInput(R.id.et_conductor_password)
+            val passwordConfirm = getEditTextInput(R.id.et_conductor_password_confirm)
+
+            if (passwordsAreValid(password, passwordConfirm)){
                 App.repo?.register(username, password, email)
                 startActivity(Intent(activity, LoginActivity::class.java))
             }
+
+
         }
     }
 
