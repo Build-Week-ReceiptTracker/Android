@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.ChartFragment">
+    tools:context=".view.ChartFragment"
+    android:background="@color/colorPrimaryDark">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
 
         <LinearLayout
             android:id="@+id/ll_edittexts"
@@ -21,12 +23,18 @@
             android:id="@+id/et_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="Start Date"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             android:layout_weight="1"/>
 
         <EditText
             android:id="@+id/et_end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="End Date"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             android:layout_weight="1"/>
 
         </LinearLayout>
@@ -35,6 +43,9 @@
             android:id="@+id/button_get_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Get Chart"
+            android:layout_margin="8dp"
+            android:background="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/ll_edittexts"/>
 
         <ImageView

@@ -51,7 +51,8 @@ class AddEditReceiptViewModel : ViewModel() {
                 }
 
                 override fun onError(requestId: String?, error: ErrorInfo?) {
-                    Log.i("BIGBRAIN", "error")
+                    Log.i("BIGBRAIN", "${error?.code}  ${error?.description}")
+
                     //Toast.makeText(this@AddReceiptFragment.context, "Failed to upload photo", Toast.LENGTH_LONG).show()
                     imageUrl.value = ""
 

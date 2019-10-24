@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.EditReceiptFragment">
+    tools:context=".view.EditReceiptFragment"
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,6 +20,8 @@
             android:hint="Amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <EditText
@@ -26,6 +29,8 @@
             android:hint="Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_edit_amount_spent"/>
 
         <EditText
@@ -33,6 +38,8 @@
             android:hint="Category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_edit_date_of_transaction"/>
 
         <EditText
@@ -40,6 +47,8 @@
             android:hint="Merchant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_edit_category"/>
 
         <EditText
@@ -47,6 +56,8 @@
             android:hint="Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_edit_merchant"/>
 
         <ImageView
@@ -64,6 +75,8 @@
             android:text="Save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/secondaryLightColor"
+            android:layout_margin="8dp"
             app:layout_constraintTop_toBottomOf="@+id/iv_edit_receipt_photo"/>
 
 
