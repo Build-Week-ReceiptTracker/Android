@@ -76,10 +76,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.sign_out -> {
-                // TODO Sign out
                 App.sharedPrefs.edit().remove(App.NAME_PREF_KEY).commit()
                 App.sharedPrefs.edit().remove(App.TOKEN_PREF_KEY).commit()
-                //App.sharedPrefs.edit().clear().apply()
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }

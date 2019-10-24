@@ -6,7 +6,6 @@ import com.example.receipttracker.App
 import com.example.receipttracker.model.Receipt
 
 class ChartViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
 
     val repo = App.repo
 

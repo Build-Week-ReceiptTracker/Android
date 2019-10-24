@@ -63,3 +63,13 @@ fun String.dateStringIncrementDay(): String {
 fun Context.getDateFromEditTexts(et_year: EditText, et_month: EditText, et_day: EditText): String {
     return "${et_year.text}-${et_month.text}-${et_day.text}"
 }
+
+fun String.splitDate(): Triple<String, String, String> {
+    val dateList = this.split("-")
+    val dateYear = dateList[0]
+    val dateMonth = dateList[1]
+    val dateDayAndTime: String = dateList[2].toString()
+    val dateDay = dateDayAndTime.split("T")[0]
+
+    return Triple(dateYear, dateMonth, dateDay)
+}

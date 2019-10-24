@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.receipttracker.R
+import com.example.receipttracker.getDateFromEditTexts
 import com.example.receipttracker.model.Receipt
+import com.example.receipttracker.splitDate
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel
 import kotlinx.android.synthetic.main.edit_receipt_fragment.*
 
@@ -37,11 +39,15 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddEditReceiptViewModel::class.java)
 
-        et_edit_amount_spent.setText(oldReceipt?.amount_spent)
-        et_edit_date_of_transaction.setText(oldReceipt?.date_of_transaction)
-        et_edit_description.setText(oldReceipt?.description)
-        et_edit_merchant.setText(oldReceipt?.merchant)
-        et_edit_category.setText(oldReceipt?.category)
+        val dateTriple: Triple<String, String, String> = oldReceipt?.date_of_transaction.splitDate()
+
+        et_edit_amount_spent.setText(oldReceipt.amount_spent)
+        et_edit_year_of_transaction.setText(dateTriple.first)
+        et_edit_month_of_transaction.setText(dateTriple.second)
+        et_edit_day_of_transaction.setText(dateTriple.third)
+        et_edit_description.setText(oldReceipt.description)
+        et_edit_merchant.setText(oldReceipt.merchant)
+        et_edit_category.setText(oldReceipt.category)
 
         if(oldReceipt.image_url != null) {
             Glide.with(this.activity!!.applicationContext)
@@ -58,7 +64,7 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
         button_save_receipt.setOnClickListener {
             val newReceipt = Receipt(
                 et_edit_amount_spent.text.toString(),
-                et_edit_date_of_transaction.text.toString(),
+                this.context!!.getDateFromEditTexts(et_edit_year_of_transaction, et_edit_month_of_transaction, et_edit_day_of_transaction),
                 et_edit_category.text.toString(),
                 et_edit_merchant.text.toString(),
                 oldReceipt.image_url ?: "",

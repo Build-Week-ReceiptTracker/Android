@@ -9,10 +9,6 @@ import com.example.receipttracker.room.ReceiptRoomDao
 
 class App: Application() {
 
-    // TODO Access Shared Preferences
-
-    //lateinit var mediaManager: MediaManager
-
     companion object{
         var repo: ReceiptRepository? = null
         const val NAME_PREF_KEY = "name_pref_key"

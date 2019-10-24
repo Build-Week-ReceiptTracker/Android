@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,8 +37,6 @@ class MyReceiptsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MyReceiptsViewModel::class.java)
-        // TODO: Use the ViewModel
-
 
         rv_my_receipts.apply {
             setHasFixedSize(false)
@@ -81,20 +81,45 @@ class MyReceiptsFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val data = receipts[position]
+            var isExpanded = false
             holder.amountView.text = data.amount_spent
             holder.categoryView.text = data.category
             holder.dateView.text = data.date_of_transaction
             holder.merchantView.text = data.merchant
             holder.idView.text = data.id.toString()
+            holder.descriptionView.text = data.description
+
+            holder.expandedView.visibility = View.GONE
+
             holder.cardView.setOnClickListener {
+                isExpanded = !isExpanded
+                if (isExpanded) {
+                    holder.expandedView.visibility = View.VISIBLE
+                } else {
+                    holder.expandedView.visibility = View.GONE
+                }
+
+            }
+            holder.editButton.setOnClickListener {
                 EditReceiptFragment(data).let {
                     activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, it)?.commit()
                 }
             }
+
             holder.cardView.setOnLongClickListener {
-                viewModel.deleteReceipt(viewModel.repo?.currentToken!!, data.id!!)?.observe(this@MyReceiptsFragment, Observer {
-                    if (it != null) Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                })
+
+                val builder = AlertDialog.Builder(context!!)
+                builder.setTitle("Delete Receipt")
+                builder.setMessage("Are you sure you want to delete this receipt?")
+                builder.setPositiveButton("YES"){ dialog, which ->
+                    viewModel.deleteReceipt(viewModel.repo?.currentToken!!, data.id!!)?.observe(this@MyReceiptsFragment, Observer {
+                        if (it != null) Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    })
+                }
+                builder.setNegativeButton("NO"){_,_->}
+
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
                 true
             }
         }
@@ -106,6 +131,9 @@ class MyReceiptsFragment : Fragment() {
             val categoryView: TextView = view.text_receipt_category
             val cardView: CardView = view.cardview_parent
             val idView: TextView = view.text_receipt_id
+            val descriptionView: TextView = view.text_receipt_description
+            val expandedView: LinearLayout = view.ll_expanded_view
+            val editButton: TextView = view.text_button_edit
         }
     }
 }

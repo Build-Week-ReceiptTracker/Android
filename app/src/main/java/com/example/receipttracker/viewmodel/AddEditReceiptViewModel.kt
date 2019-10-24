@@ -13,7 +13,6 @@ import com.example.receipttracker.model.Receipt
 import java.net.URI
 
 class AddEditReceiptViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
 
     val repo = App.repo
     companion object {
@@ -51,7 +50,8 @@ class AddEditReceiptViewModel : ViewModel() {
                 }
 
                 override fun onError(requestId: String?, error: ErrorInfo?) {
-                    Log.i("BIGBRAIN", "error")
+                    Log.i("BIGBRAIN", "${error?.code}  ${error?.description}")
+
                     //Toast.makeText(this@AddReceiptFragment.context, "Failed to upload photo", Toast.LENGTH_LONG).show()
                     imageUrl.value = ""
 

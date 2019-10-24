@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.AddReceiptFragment">
+    tools:context=".view.AddReceiptFragment"
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,34 +13,70 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
 
         <EditText
             android:id="@+id/et_amount_spent"
             android:hint="Amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <EditText
-            android:id="@+id/et_date_of_transaction"
-            android:hint="Date"
+        <LinearLayout
+            android:id="@+id/ll_date_input"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/et_amount_spent"/>
+            app:layout_constraintTop_toBottomOf="@+id/et_amount_spent">
+
+            <EditText
+                android:id="@+id/et_year_of_transaction"
+                android:hint="YYYY"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+            <EditText
+                android:id="@+id/et_month_of_transaction"
+                android:hint="MM"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+            <EditText
+                android:id="@+id/et_day_of_transaction"
+                android:hint="DD"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_category"
             android:hint="Category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/et_date_of_transaction"/>
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
+            app:layout_constraintTop_toBottomOf="@+id/ll_date_input"/>
 
         <EditText
             android:id="@+id/et_merchant"
             android:hint="Merchant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_category"/>
 
         <EditText
@@ -47,12 +84,16 @@
             android:hint="Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/et_merchant"/>
 
         <ImageView
             android:id="@+id/iv_receipt_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@id/et_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -61,14 +102,18 @@
             android:id="@+id/button_add_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/secondaryLightColor"
             android:text="Add Photo"
+            android:layout_margin="8dp"
             app:layout_constraintTop_toBottomOf="@id/iv_receipt_photo"/>
 
         <Button
             android:id="@+id/button_add_receipt"
             android:text="Add"
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/secondaryLightColor"
             app:layout_constraintTop_toBottomOf="@+id/button_add_photo"/>
 
 

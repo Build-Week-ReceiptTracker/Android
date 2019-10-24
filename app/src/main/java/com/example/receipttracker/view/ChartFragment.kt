@@ -45,7 +45,7 @@ class ChartFragment : Fragment() {
         })
 
         button_get_chart.setOnClickListener {
-            url = "https://image-charts.com/chart?&chs=300x0&cht=lc&chd=t:"
+            url = "https://image-charts.com/chart?&chs=300x150&cht=lc&chd=t:"
             var startDate = et_start_date.text.toString()
             var endDate = et_end_date.text.toString()
             val newList = fullList.filterByDate(startDate,endDate)
