@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.receipttracker.App
+import com.example.receipttracker.R
 import com.example.receipttracker.model.PostReceiptResponse
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.model.Token
@@ -21,6 +22,9 @@ class ReceiptApiDao {
                 if (field == null) apiDaoInstance = ReceiptApiDao()
                 return field
             }
+
+        const val RECEIPT_ADDED_KEY = "Receipt Added"
+        const val RECEIPT_FAILED_KEY = "Failed to add Receipt"
     }
 
     val addReceiptReponse = MutableLiveData<String>()
@@ -88,9 +92,9 @@ class ReceiptApiDao {
             override fun onResponse(call: Call<PostReceiptResponse>, response: Response<PostReceiptResponse>) {
                 Log.i("BIGBRAIN", response.toString() + response.body()?.receiptID + response.body()?.message)
                 if (response.isSuccessful) {
-                    addReceiptReponse.value = "Receipt Added"
+                    addReceiptReponse.value = RECEIPT_ADDED_KEY
                 } else {
-                    addReceiptReponse.value = "Failed to add receipt ${response.errorBody()}"
+                    addReceiptReponse.value = RECEIPT_FAILED_KEY
                 }
             }
         })

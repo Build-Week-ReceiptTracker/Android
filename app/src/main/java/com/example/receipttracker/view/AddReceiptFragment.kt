@@ -2,6 +2,7 @@ package com.example.receipttracker.view
 
 import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel
 import com.example.receipttracker.R
+import com.example.receipttracker.api.ReceiptApiDao.Companion.RECEIPT_ADDED_KEY
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel.Companion.WAIT_KEY
 import kotlinx.android.synthetic.main.add_receipt_fragment.*
@@ -27,6 +29,9 @@ class AddReceiptFragment : Fragment() {
 
     private var imageUrl: String? = null
     private lateinit var viewModel: AddEditReceiptViewModel
+    private lateinit var mediaPlayerFailed: MediaPlayer
+    private lateinit var mediaPlayerSuccess: MediaPlayer
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,8 @@ class AddReceiptFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddEditReceiptViewModel::class.java)
+        mediaPlayerFailed = MediaPlayer.create(this.context, R.raw.systemfault)
+        mediaPlayerSuccess = MediaPlayer.create(this.context, R.raw.accomplished)
 
         button_add_photo.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -60,6 +67,7 @@ class AddReceiptFragment : Fragment() {
             viewModel.addReceipt(viewModel.repo?.currentToken!!, newReceipt)?.observe(this, Observer {
                 if (it != null) {
                     Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show()
+                    if (it == RECEIPT_ADDED_KEY) mediaPlayerSuccess.start() else mediaPlayerFailed.start()
                 }
             })
         }
