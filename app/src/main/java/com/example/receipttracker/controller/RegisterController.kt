@@ -18,27 +18,29 @@ import com.example.receipttracker.viewmodel.LoginViewModel
 
 class RegisterController : Controller() {
 
+    private var toastMessage = ""
+
+    fun passwordsAreValid(password: String, passwordConfirm: String): Boolean{
+        if (password != passwordConfirm){
+            toastMessage = "Passwords Don't Match"
+            return false
+        }else if(password.isEmpty() || passwordConfirm.isEmpty()){
+            toastMessage = "Blank Password Field"
+            return false
+        }
+        return true
+    }
+
+    fun getEditTextInput(id: Int): String{
+        return view?.findViewById<EditText>(id)?.text.toString()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         return inflater.inflate(R.layout.login_main_conductor, container, false)
     }
 
     override fun onChangeStarted(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeStarted(changeHandler, changeType)
-
-        fun passwordsAreValid(password: String, passwordConfirm: String): Boolean{
-            if (password != passwordConfirm){
-                Toast.makeText(activity, "Passwords Don't Match", Toast.LENGTH_SHORT).show()
-                return false
-            }else if(password.isEmpty() || passwordConfirm.isEmpty()){
-                Toast.makeText(activity, "Blank Password Field", Toast.LENGTH_SHORT).show()
-                return false
-            }
-            return true
-        }
-
-        fun getEditTextInput(id: Int): String{
-            return view?.findViewById<EditText>(id)?.text.toString()
-        }
 
         view?.findViewById<Button>(R.id.button_conductor_register)?.setOnClickListener {
             val email = getEditTextInput(R.id.et_conductor_email)
@@ -49,9 +51,9 @@ class RegisterController : Controller() {
             if (passwordsAreValid(password, passwordConfirm)){
                 App.repo?.register(username, password, email)
                 startActivity(Intent(activity, LoginActivity::class.java))
+            }else{
+                Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show()
             }
-
-
         }
     }
 
