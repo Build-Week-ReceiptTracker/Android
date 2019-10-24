@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel
 import com.example.receipttracker.R
 import com.example.receipttracker.api.ReceiptApiDao.Companion.RECEIPT_ADDED_KEY
+import com.example.receipttracker.getDateFromEditTexts
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel.Companion.WAIT_KEY
 import kotlinx.android.synthetic.main.add_receipt_fragment.*
@@ -55,7 +56,7 @@ class AddReceiptFragment : Fragment() {
         button_add_receipt.setOnClickListener {
             val newReceipt = Receipt(
                 et_amount_spent.text.toString(),
-                et_date_of_transaction.text.toString(),
+                this.context!!.getDateFromEditTexts(et_year_of_transaction, et_month_of_transaction, et_day_of_transaction),
                 et_category.text.toString(),
                 et_merchant.text.toString(),
                 imageUrl ?: "",

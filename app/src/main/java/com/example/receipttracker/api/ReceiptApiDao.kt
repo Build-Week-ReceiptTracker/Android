@@ -34,8 +34,6 @@ class ReceiptApiDao {
     val getAllReceiptsResponse = MutableLiveData<MutableList<Receipt>>()
     val loginResponse = MutableLiveData<Boolean>()
 
-    //TODO: add necessary retrofitcalls
-
     fun login(username: String, password: String): MutableLiveData<Boolean>{
         loginResponse.value = false
         ReceiptApiBuilder.receiptApi.loginUser(User(username, password)).enqueue(object :

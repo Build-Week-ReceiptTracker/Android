@@ -11,7 +11,6 @@ interface ReceiptApi {
 
     @POST("/api/login")
     fun loginUser(@Body user: User): Call<Token>
-    //TODO: add all necessary http calls
 
     @POST("/api/register")
     fun registerUser(@Body user: User): Call<Void>

@@ -24,14 +24,41 @@
             android:textColorHint="@color/secondaryLightColor"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <EditText
-            android:id="@+id/et_edit_date_of_transaction"
-            android:hint="Date"
+        <LinearLayout
+            android:id="@+id/ll_edit_date_input"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryTextColor"
-            android:textColorHint="@color/secondaryLightColor"
-            app:layout_constraintTop_toBottomOf="@+id/et_edit_amount_spent"/>
+            app:layout_constraintTop_toBottomOf="@+id/et_edit_amount_spent">
+
+            <EditText
+                android:id="@+id/et_edit_year_of_transaction"
+                android:hint="YYYY"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+            <EditText
+                android:id="@+id/et_edit_month_of_transaction"
+                android:hint="MM"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+            <EditText
+                android:id="@+id/et_edit_day_of_transaction"
+                android:hint="DD"
+                android:inputType="number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textColorHint="@color/secondaryLightColor" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_edit_category"
@@ -40,7 +67,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primaryTextColor"
             android:textColorHint="@color/secondaryLightColor"
-            app:layout_constraintTop_toBottomOf="@+id/et_edit_date_of_transaction"/>
+            app:layout_constraintTop_toBottomOf="@+id/ll_edit_date_input"/>
 
         <EditText
             android:id="@+id/et_edit_merchant"

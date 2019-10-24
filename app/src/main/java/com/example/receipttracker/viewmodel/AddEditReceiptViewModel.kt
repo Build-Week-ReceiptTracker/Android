@@ -13,7 +13,6 @@ import com.example.receipttracker.model.Receipt
 import java.net.URI
 
 class AddEditReceiptViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
 
     val repo = App.repo
     companion object {

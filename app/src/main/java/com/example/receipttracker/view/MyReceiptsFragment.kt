@@ -37,8 +37,6 @@ class MyReceiptsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MyReceiptsViewModel::class.java)
-        // TODO: Use the ViewModel
-
 
         rv_my_receipts.apply {
             setHasFixedSize(false)
