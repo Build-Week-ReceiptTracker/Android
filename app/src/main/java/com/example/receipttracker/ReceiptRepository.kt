@@ -1,57 +1,54 @@
 package com.example.receipttracker
 
-import android.content.Context
 import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.example.receipttracker.api.ReceiptApiDao
 import com.example.receipttracker.model.Receipt
-import com.example.receipttracker.room.ReceiptDatabase
 import com.example.receipttracker.room.ReceiptRoomDao
 
-class ReceiptRepository (context: Context) {
+class ReceiptRepository {
 
-    private val receiptRoomDao: ReceiptRoomDao
-
+    val receiptRoomDao: ReceiptRoomDao by lazy {
+        App.databaseDao!!
+    }
     lateinit var currentUser: String
     lateinit var currentToken: String
 
-    init {
-        val database: ReceiptDatabase = ReceiptDatabase.getInstance(context)!!
-        receiptRoomDao = database.receiptDao()
+    fun initiate(){
         currentUser = App.sharedPrefs.getString(App.NAME_PREF_KEY, "").toString()
         currentToken = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "").toString()
     }
 
     fun resetUserAndToken() {
+        initiate()
         if (App.sharedPrefs.getString(App.NAME_PREF_KEY, "") != null && App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "") != null) {
             currentUser = App.sharedPrefs.getString(App.NAME_PREF_KEY, "").toString()
             currentToken = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "").toString()
         }
     }
 
-    fun login(username: String, password: String): MutableLiveData<Boolean>?{
-        return ReceiptApiDao.apiDaoInstance?.login(username, password)
+    fun login(username: String, password: String, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<Boolean>?{
+        return instance?.login(username, password)
     }
 
     fun register(username: String, password: String, email: String){
         ReceiptApiDao.apiDaoInstance?.register(username, password, email)
     }
 
-    fun addReceipt(token: String, receipt: Receipt): MutableLiveData<String>? {
-        return ReceiptApiDao.apiDaoInstance?.addReceipt(token, receipt)
+    fun addReceipt(token: String, receipt: Receipt, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<String>? {
+        return instance?.addReceipt(token, receipt)
     }
 
-    fun getAllReceipts(token: String): MutableLiveData<MutableList<Receipt>>? {
-        return ReceiptApiDao.apiDaoInstance?.getAllReceipts(token)
+    fun getAllReceipts(token: String, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<MutableList<Receipt>>? {
+        return instance?.getAllReceipts(token)
     }
 
-    fun deleteReceipt(token: String, id: Int): MutableLiveData<String>? {
-       return ReceiptApiDao.apiDaoInstance?.deleteReceipt(token, id)
+    fun deleteReceipt(token: String, id: Int, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<String>? {
+       return instance?.deleteReceipt(token, id)
     }
 
-    fun editReceipt(token: String, id: Int, receipt: Receipt): MutableLiveData<String>? {
-        return ReceiptApiDao.apiDaoInstance?.editReceipt(token, id, receipt)
+    fun editReceipt(token: String, id: Int, receipt: Receipt, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<String>? {
+        return instance?.editReceipt(token, id, receipt)
     }
 
     fun insert(receipt: Receipt) {
