@@ -74,7 +74,7 @@ class MyReceiptsViewModelTests {
         `when`(repoMock.getAllReceipts(mockToken)).thenReturn(liveDataList)
 
         val expected = liveDataList
-        val result = myReceiptsViewModel.getAllReceipts(mockToken)
+        val result = myReceiptsViewModel.getAllReceipts(mockToken, repoMock)
 
         assertEquals(expected, result)
     }
@@ -85,21 +85,8 @@ class MyReceiptsViewModelTests {
         `when`(repoMock.deleteReceipt(mockToken, id)).thenReturn(liveDataString)
 
         val expected = liveDataString
-        val result = myReceiptsViewModel.deleteReceipt(mockToken, id)
+        val result = myReceiptsViewModel.deleteReceipt(mockToken, id, repoMock)
 
         assertEquals(expected, result)
     }
-
-//    @Test
-//    fun deleteReceiptSuccessfullyTest(){
-//        val id = receipt.id!!
-//        val repoMock = mock(ReceiptRepository::class.java)
-//        `when`(repoMock.deleteReceipt(mockToken, id).thenReturn(liveDataString))
-//
-//        val expected: MutableLiveData<MutableList<Receipt>>? = MutableLiveData()
-//
-//        val result = myReceiptsViewModel.deleteReceipt(mockToken, id)
-//
-//        assertEquals(expected, result)
-//    }
 }
