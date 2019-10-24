@@ -11,14 +11,15 @@ import kotlin.test.assertEquals
 class RepoTests {
     private val repo: ReceiptRepository = ReceiptRepository()
     private val apiDaoMock = Mockito.mock(ReceiptApiDao::class.java)
+    private val receipt = Mockito.mock(Receipt::class.java)
 
     @Test
     fun testLogin(){
         val username = "User"
         val password = "Password"
-        val expected = MutableLiveData<Boolean>(true)
+        val expected: MutableLiveData<Boolean>? = MutableLiveData(true)
 
-        `when`(apiDaoMock?.login(username, password)).thenReturn(MutableLiveData(true))
+        `when`(apiDaoMock?.login(username, password)).thenReturn(expected)
 
         val result = repo.login(username, password, apiDaoMock)
 
@@ -29,7 +30,6 @@ class RepoTests {
     fun testAddReceipt(){
         val username = "User"
         val expected: MutableLiveData<String>? = MutableLiveData("String")
-        val receipt = Mockito.mock(Receipt::class.java)
 
         `when`(apiDaoMock.addReceipt(username, receipt)).thenReturn(expected)
 
@@ -40,35 +40,39 @@ class RepoTests {
 
     @Test
     fun testGetAllReceipts(){
-        val username = "User"
-        val password = "Password"
-        val expected = MutableLiveData<Boolean>(true)
+        val token = "token"
+        val expected: MutableLiveData<MutableList<Receipt>>? = MutableLiveData(mutableListOf(receipt))
 
-        `when`(apiDaoMock.login(username, password)).thenReturn(MutableLiveData(true))
+        `when`(apiDaoMock.getAllReceipts(token)).thenReturn(expected)
 
+        val result = repo.getAllReceipts(token, apiDaoMock)
 
-        assert(repo.login(username, password, apiDaoMock)?.value!!)
+        assertEquals(expected, result)
     }
 
     @Test
     fun testDeleteReceipt(){
-        val username = "User"
-        val password = "Password"
-        val expected: MutableLiveData<Boolean>? = MutableLiveData(true)
+        val token = "token"
+        val id = 0
+        val expected: MutableLiveData<String>? = MutableLiveData("Expected")
 
-        `when`(apiDaoMock.login(username, password)).thenReturn(MutableLiveData(true))
+        `when`(apiDaoMock.deleteReceipt(token, id)).thenReturn(expected)
 
-        assert(repo.login(username, password, apiDaoMock)?.value!!)
+        val result = repo.deleteReceipt(token, id, apiDaoMock)
+
+        assertEquals(expected, result)
     }
 
     @Test
     fun testEditReceipt(){
-        val username = "User"
-        val password = "Password"
-        val expected: MutableLiveData<Boolean>? = MutableLiveData(true)
+        val token = "token"
+        val id = 0
+        val expected: MutableLiveData<String>? = MutableLiveData("Expected")
 
-        `when`(apiDaoMock.login(username, password)).thenReturn(MutableLiveData(true))
+        `when`(apiDaoMock.editReceipt(token, id, receipt)).thenReturn(expected)
 
-        assert(repo.login(username, password, apiDaoMock)?.value!!)
+        val result = repo.editReceipt(token, id, receipt, apiDaoMock)
+
+        assertEquals(expected, result)
     }
 }
