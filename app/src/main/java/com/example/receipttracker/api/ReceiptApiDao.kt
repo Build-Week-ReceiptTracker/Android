@@ -25,6 +25,7 @@ class ReceiptApiDao {
 
         const val RECEIPT_ADDED_KEY = "Receipt Added"
         const val RECEIPT_FAILED_KEY = "Failed to add Receipt"
+        const val WAIT_KEY = "WAITING"
     }
 
     val addReceiptReponse = MutableLiveData<String>()
@@ -82,6 +83,8 @@ class ReceiptApiDao {
     }
 
     fun addReceipt(token: String, receipt: Receipt): MutableLiveData<String> {
+
+        addReceiptReponse.value = WAIT_KEY
         Log.i("BIGBRAIN", token)
         ReceiptApiBuilder.receiptApi.addReceipt(token, receipt).enqueue(object : Callback<PostReceiptResponse> {
             override fun onFailure(call: Call<PostReceiptResponse>, t: Throwable) {

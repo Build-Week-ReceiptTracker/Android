@@ -12,7 +12,6 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.receipttracker.EditReceiptFragment
 
 import com.example.receipttracker.R
 import com.example.receipttracker.model.Receipt

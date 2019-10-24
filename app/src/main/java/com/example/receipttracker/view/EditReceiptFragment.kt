@@ -1,4 +1,4 @@
-package com.example.receipttracker
+package com.example.receipttracker.view
 
 import android.app.Activity
 import android.content.Intent
@@ -12,11 +12,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.example.receipttracker.R
 import com.example.receipttracker.model.Receipt
-import com.example.receipttracker.view.AddReceiptFragment
-import com.example.receipttracker.view.MyReceiptsFragment
 import com.example.receipttracker.viewmodel.AddEditReceiptViewModel
-import kotlinx.android.synthetic.main.add_receipt_fragment.*
 import kotlinx.android.synthetic.main.edit_receipt_fragment.*
 
 

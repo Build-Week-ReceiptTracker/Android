@@ -65,9 +65,12 @@ class AddReceiptFragment : Fragment() {
             )
 
             viewModel.addReceipt(viewModel.repo?.currentToken!!, newReceipt)?.observe(this, Observer {
+
                 if (it != null) {
-                    Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show()
-                    if (it == RECEIPT_ADDED_KEY) mediaPlayerSuccess.start() else mediaPlayerFailed.start()
+                    if (it != WAIT_KEY) {
+                        Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show()
+                        if (it == RECEIPT_ADDED_KEY) mediaPlayerSuccess.start() else mediaPlayerFailed.start()
+                    }
                 }
             })
         }

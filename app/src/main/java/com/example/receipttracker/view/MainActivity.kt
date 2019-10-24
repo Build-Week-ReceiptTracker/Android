@@ -10,11 +10,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.bluelinelabs.conductor.Conductor
 import com.example.receipttracker.App
 import com.example.receipttracker.R
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_login.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_category_add_receipt -> {
                     selectedFragment = AddReceiptFragment()
                     title = "Add Receipt"
+                }
+                R.id.nav_category_charts -> {
+                    selectedFragment = ChartFragment()
+                    title = "Analysis"
                 }
             }
             selectedFragment?.let { it1 ->
