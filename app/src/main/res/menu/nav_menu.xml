@@ -13,8 +13,8 @@
             android:title="Add Receipt"/>
         <item
             android:checkable="true"
-            android:id="@+id/nav_category_third"
-            android:title="Other"/>
+            android:id="@+id/nav_category_charts"
+            android:title="Analysis"/>
 
     </group>
 
