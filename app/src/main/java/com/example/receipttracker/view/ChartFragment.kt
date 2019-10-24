@@ -2,18 +2,18 @@ package com.example.receipttracker.view
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.example.receipttracker.R
-import com.example.receipttracker.averageReceiptAmounts
-import com.example.receipttracker.filterByDate
+import com.example.receipttracker.*
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.ChartViewModel
 import kotlinx.android.synthetic.main.chart_fragment.*
+import java.util.*
 
 
 class ChartFragment : Fragment() {
@@ -45,20 +45,32 @@ class ChartFragment : Fragment() {
         })
 
         button_get_chart.setOnClickListener {
+            url = "https://image-charts.com/chart?&chs=300x0&cht=lc&chd=t:"
             var startDate = et_start_date.text.toString()
             var endDate = et_end_date.text.toString()
             val newList = fullList.filterByDate(startDate,endDate)
-            for (i in 0 until newList.size) {
-                for (i in 0 until newList.size) {
-                    var subList = newList.filterByDate(startDate, startDate)
-                    var dailyAverage = subList.averageReceiptAmounts()
-                    url += (dailyAverage.toString() + ",")
-                }
-                //startDate = LocalDateTime.from()
+
+            val startDateInt = startDate.dateStringToDate().get(Calendar.DAY_OF_MONTH)
+            val endDateInt = endDate.dateStringToDate().get(Calendar.DAY_OF_MONTH)
+            val dateDiff = endDateInt - startDateInt
+
+            var dailyAverage: Double = 0.0
+            for (i in 0 until dateDiff) {
+                var subList = newList.filterByDate(startDate, startDate)
+
+                dailyAverage = subList.averageReceiptAmounts()
+
+                Log.i("BIGBRAIN", dailyAverage.toString())
+                url += (dailyAverage.toString() + ",")
+                dailyAverage = 0.0
+                startDate = startDate.dateStringIncrementDay()
             }
 
-            Glide.with(this.context!!).load("https://image-charts.com/chart?&chs=500x500&cht=lc&chd=t:40,60,60,45,47,75,70,72").into(iv_chart)
+            url = url.dropLast(1)
+            Log.i("BIGBRAIN", url)
+            Glide.with(this.context!!)
+                .load(url)
+                .into(iv_chart)
         }
     }
-
 }
