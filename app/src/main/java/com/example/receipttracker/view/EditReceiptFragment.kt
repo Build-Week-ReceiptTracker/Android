@@ -104,9 +104,12 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
             if (photoUri != null) {
                 iv_edit_receipt_photo.setImageURI(Uri.parse(photoUri.toString()))
                 viewModel.uploadReceiptPhoto(photoUri)?.observe(this, Observer {
+                    button_save_receipt.isEnabled = false
                     if (it != AddEditReceiptViewModel.WAIT_KEY) {
+                        button_save_receipt.isEnabled = true
                         if (it.isNotBlank()) {
                             oldReceipt.image_url = it
+                            Toast.makeText(this.context, "Image Saved Successfully", Toast.LENGTH_LONG).show()
                         } else Toast.makeText(this.context, "Failed to upload image", Toast.LENGTH_LONG).show()
                     }
                 })
