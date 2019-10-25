@@ -32,8 +32,8 @@ class ReceiptRepository {
         return instance?.login(username, password)
     }
 
-    fun register(username: String, password: String, email: String){
-        ReceiptApiDao.apiDaoInstance?.register(username, password, email)
+    fun register(username: String, password: String, email: String): MutableLiveData<String>? {
+        return ReceiptApiDao.apiDaoInstance?.register(username, password, email)
     }
 
     fun addReceipt(token: String, receipt: Receipt, instance: ReceiptApiDao? = ReceiptApiDao.apiDaoInstance): MutableLiveData<String>? {
