@@ -89,9 +89,12 @@ class AddReceiptFragment : Fragment() {
             if (photoUri != null) {
                 iv_receipt_photo.setImageURI(Uri.parse(photoUri.toString()))
                 viewModel.uploadReceiptPhoto(photoUri)?.observe(this, Observer {
+                    button_add_receipt.isEnabled = false
                     if (it != WAIT_KEY) {
+                        button_add_receipt.isEnabled = true
                         if (it.isNotBlank()) {
                             imageUrl = it
+                            Toast.makeText(this.context, "Image Uploaded Successfully", Toast.LENGTH_LONG).show()
                         } else Toast.makeText(this.context, "Failed to upload image", Toast.LENGTH_LONG).show()
                     }
                 })

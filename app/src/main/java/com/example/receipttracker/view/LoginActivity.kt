@@ -3,6 +3,9 @@ package com.example.receipttracker.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bluelinelabs.conductor.Conductor
@@ -26,16 +29,27 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        probar_login.visibility = View.GONE
+
         /*val token: String? = App.sharedPrefs.getString(App.TOKEN_PREF_KEY, "")
         if (token != null && token.isNotEmpty()){
             startActivity(Intent(this, MainActivity::class.java))
         }*/
 
         button_login.setOnClickListener {
+            probar_login.visibility = View.VISIBLE
             val user = et_username.text.toString()
             val password = et_password.text.toString()
             viewModel.login(user, password)?.observe(this, Observer {
-                if (it == true) startActivity(Intent(this, MainActivity::class.java))
+                if (it != null) {
+                    if (it == true) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        probar_login.visibility = View.GONE
+                    } else {
+                        Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show()
+                        probar_login.visibility = View.GONE
+                    }
+                }
             })
         }
 

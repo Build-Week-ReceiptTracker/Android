@@ -10,6 +10,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@color/colorPrimaryDark">
 
+    <ProgressBar
+        android:id="@+id/probar_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <ImageView
         android:id="@+id/iv_logo"
         android:src="@mipmap/ic_launcher_big"

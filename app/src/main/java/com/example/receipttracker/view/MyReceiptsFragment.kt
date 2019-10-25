@@ -1,11 +1,13 @@
 package com.example.receipttracker.view
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -14,8 +16,10 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 import com.example.receipttracker.R
+import com.example.receipttracker.dateStringToDate
 import com.example.receipttracker.model.Receipt
 import com.example.receipttracker.viewmodel.MyReceiptsViewModel
 import kotlinx.android.synthetic.main.my_receipts_fragment.*
@@ -53,6 +57,7 @@ class MyReceiptsFragment : Fragment() {
 
         viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer { receiptsList ->
             if(receiptsList != null) {
+                receiptsList.sortBy { it.date_of_transaction.dateStringToDate() }
                 rv_my_receipts.adapter = ReceiptListAdapter(receiptsList)
 
                 // button is used to return receipts containing user's string
@@ -79,7 +84,10 @@ class MyReceiptsFragment : Fragment() {
 
     inner class ReceiptListAdapter(private val receipts: MutableList<Receipt>) : RecyclerView.Adapter<ReceiptListAdapter.ViewHolder>() {
 
+        lateinit var context: Context
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            context = parent.context
             val view = LayoutInflater.from(parent.context).inflate(R.layout.receipt_item_list_view, parent, false)
             return ViewHolder(view)
         }
@@ -95,6 +103,7 @@ class MyReceiptsFragment : Fragment() {
             holder.merchantView.text = data.merchant
             holder.idView.text = data.id.toString()
             holder.descriptionView.text = data.description
+            Glide.with(context).load(data.image_url).into(holder.imageView)
 
             holder.expandedView.visibility = View.GONE
 
@@ -141,6 +150,7 @@ class MyReceiptsFragment : Fragment() {
             val descriptionView: TextView = view.text_receipt_description
             val expandedView: LinearLayout = view.ll_expanded_view
             val editButton: TextView = view.text_button_edit
+            val imageView: ImageView = view.iv_recycler
         }
     }
 }

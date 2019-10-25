@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.example.receipttracker.App
 import com.example.receipttracker.R
+import com.example.receipttracker.api.ReceiptApiDao.Companion.WAIT_KEY
 import com.example.receipttracker.view.LoginActivity
 import com.example.receipttracker.viewmodel.LoginViewModel
 

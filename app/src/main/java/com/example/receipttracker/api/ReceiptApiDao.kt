@@ -25,6 +25,8 @@ class ReceiptApiDao {
 
         const val RECEIPT_ADDED_KEY = "Receipt Added"
         const val RECEIPT_FAILED_KEY = "Failed to add Receipt"
+        const val REGISTER_SUCCESS_KEY = "Registered Successfully"
+        const val REGISTER_FAILED_KEY = "Failed to Register"
         const val WAIT_KEY = "WAITING"
     }
 
@@ -33,13 +35,15 @@ class ReceiptApiDao {
     val deleteReceiptResponse = MutableLiveData<String>()
     val getAllReceiptsResponse = MutableLiveData<MutableList<Receipt>>()
     val loginResponse = MutableLiveData<Boolean>()
+    val registerResponse = MutableLiveData<String>()
 
     fun login(username: String, password: String): MutableLiveData<Boolean>{
-        loginResponse.value = false
+        loginResponse.value = null
         ReceiptApiBuilder.receiptApi.loginUser(User(username, password)).enqueue(object :
             Callback<Token>{
             override fun onFailure(call: Call<Token>, t: Throwable) {
                 Log.i("BIGBRAIN", t.toString())
+                loginResponse.value = false
             }
 
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
@@ -53,6 +57,7 @@ class ReceiptApiDao {
                     }
                 } else {
                     Log.i("BIGBRAIN", response.body()?.message ?: "Response Not Successful")
+                    loginResponse.value = false
                 }
             }
         })
@@ -68,16 +73,20 @@ class ReceiptApiDao {
 
     }
 
-    fun register(username: String, password: String, email: String){
+    fun register(username: String, password: String, email: String): MutableLiveData<String>{
+        registerResponse.value = WAIT_KEY
+
         ReceiptApiBuilder.receiptApi.registerUser(User(username, password, email)).enqueue(object : Callback<Void>{
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                registerResponse.value = REGISTER_FAILED_KEY
             }
 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                val int = 0
+                registerResponse.value = REGISTER_SUCCESS_KEY
             }
         })
+
+        return registerResponse
     }
 
     fun addReceipt(token: String, receipt: Receipt): MutableLiveData<String> {
