@@ -54,6 +54,7 @@ class AddReceiptFragment : Fragment() {
         }
 
         button_add_receipt.setOnClickListener {
+            viewModel.hideSoftKeyboard(requireActivity())
             val newReceipt = Receipt(
                 et_amount_spent.text.toString(),
                 this.context!!.getDateFromEditTexts(et_year_of_transaction, et_month_of_transaction, et_day_of_transaction),

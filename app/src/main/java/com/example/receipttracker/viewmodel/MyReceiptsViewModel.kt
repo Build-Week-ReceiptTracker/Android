@@ -1,5 +1,7 @@
 package com.example.receipttracker.viewmodel
 
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.receipttracker.App
@@ -24,6 +26,11 @@ class MyReceiptsViewModel : ViewModel() {
                 receipt.category.toLowerCase().contains(userSearch.toLowerCase()) ||
                 receipt.merchant.toLowerCase().contains(userSearch.toLowerCase()) ||
                 receipt.description.toLowerCase().contains(userSearch.toLowerCase())
+    }
+
+    fun hideSoftKeyboard(activity: Activity){
+        val inputMethodManager: InputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
     }
 
 }
