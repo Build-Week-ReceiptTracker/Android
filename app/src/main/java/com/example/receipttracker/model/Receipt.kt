@@ -8,7 +8,7 @@ import java.util.*
 @Entity(tableName = "receipt_table")
 class Receipt (
     var amount_spent: String,
-    var date_of_transaction: String,
+    var date_of_transaction: String = "2019-10-25",
     var category: String,
     var merchant: String,
     var image_url: String?,
