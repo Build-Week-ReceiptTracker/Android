@@ -27,6 +27,14 @@ class AddEditReceiptViewModel : ViewModel() {
         return repo?.editReceipt(token, id, receipt)
     }
 
+    fun addReceiptToRoom(receipt: Receipt) {
+        repo?.insert(receipt)
+    }
+
+    fun updateReceiptToToom(receipt: Receipt) {
+        repo?.update(receipt)
+    }
+
     fun uploadReceiptPhoto(photoUri: Uri): MutableLiveData<String>? {
 
         var imageUrl = MutableLiveData<String>()

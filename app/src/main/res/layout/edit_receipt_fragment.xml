@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.EditReceiptFragment"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:padding="16dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -97,13 +98,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_edit_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/secondaryLightColor"
+            android:src="@drawable/ic_photo_camera_black_24dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_edit_receipt_photo"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_save_receipt"
-            android:text="Save"
-            android:layout_width="match_parent"
+            android:src="@drawable/ic_save_black_24dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/secondaryLightColor"
             android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_edit_receipt_photo"/>
 
 

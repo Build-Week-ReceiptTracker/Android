@@ -44,6 +44,13 @@ class MyReceiptsFragment : Fragment() {
             adapter = ReceiptListAdapter(mutableListOf<Receipt>())
         }
 
+        fab_add_receipt.setOnClickListener {
+            AddReceiptFragment().let {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, it)?.commit()
+            }
+        }
+
         viewModel.getAllReceipts(viewModel.repo?.currentToken!!)?.observe(this, Observer { receiptsList ->
             if(receiptsList != null) {
                 rv_my_receipts.adapter = ReceiptListAdapter(receiptsList)
@@ -65,7 +72,7 @@ class MyReceiptsFragment : Fragment() {
                 }
 
             } else {
-                Toast.makeText(this.context, "Failed to get receiptsList", Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, "Failed to get receipts", Toast.LENGTH_LONG).show()
             }
         })
     }

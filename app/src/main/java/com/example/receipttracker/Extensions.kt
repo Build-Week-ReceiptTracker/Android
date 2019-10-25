@@ -19,8 +19,10 @@ fun MutableList<Receipt>.filterByDate(startDate: String, endDate: String): Mutab
 
 fun MutableList<Receipt>.averageReceiptAmounts(): Double {
     var average: Double = 0.0
+
     if (this.size > 0) {
         this.forEach {
+            it.amount_spent = it.amount_spent.replace(",", "")
             val amountDouble = it.amount_spent.split("$")[1].toDouble()
             average += amountDouble
         }
