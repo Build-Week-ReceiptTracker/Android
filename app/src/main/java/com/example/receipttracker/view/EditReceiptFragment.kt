@@ -55,7 +55,14 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
                 .into(iv_edit_receipt_photo)
         }
 
+
         iv_edit_receipt_photo.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, AddReceiptFragment.IMAGE_REQUEST_CODE)
+        }
+
+        button_edit_photo.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
             startActivityForResult(intent, AddReceiptFragment.IMAGE_REQUEST_CODE)
