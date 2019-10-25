@@ -88,8 +88,9 @@ class EditReceiptFragment(receipt: Receipt) : Fragment() {
                             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                             if (it == "Successfully Edited Receipt") {
                                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, MyReceiptsFragment())?.commit()
+                            } else {
+                                viewModel.updateReceiptToToom(newReceipt)
                             }
-
                         }
                     })
             }

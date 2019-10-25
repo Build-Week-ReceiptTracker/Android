@@ -70,7 +70,12 @@ class AddReceiptFragment : Fragment() {
                 if (it != null) {
                     if (it != WAIT_KEY) {
                         Toast.makeText(this.context, it, Toast.LENGTH_SHORT).show()
-                        if (it == RECEIPT_ADDED_KEY) mediaPlayerSuccess.start() else mediaPlayerFailed.start()
+                        if (it == RECEIPT_ADDED_KEY) {
+                            mediaPlayerSuccess.start()
+                        } else {
+                            mediaPlayerFailed.start()
+                            viewModel.addReceiptToRoom(newReceipt)
+                        }
                     }
                 }
             })

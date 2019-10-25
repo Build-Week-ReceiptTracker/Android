@@ -1,6 +1,7 @@
 package com.example.receipttracker
 
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.receipttracker.api.ReceiptApiDao
 import com.example.receipttracker.model.Receipt
