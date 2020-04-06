@@ -1,7 +1,9 @@
 package com.example.receipttracker.viewmodel
 
+import android.app.Activity
 import android.net.Uri
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,5 +73,10 @@ class AddEditReceiptViewModel : ViewModel() {
             })
             .dispatch()
         return imageUrl
+    }
+
+    fun hideSoftKeyboard(activity: Activity){
+        val inputMethodManager: InputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
     }
 }

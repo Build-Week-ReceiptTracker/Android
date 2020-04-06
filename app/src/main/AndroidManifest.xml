@@ -21,8 +21,10 @@
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://djqqksunp"/>
         <activity android:name=".view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".view.LoginActivity">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity android:name=".view.LoginActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

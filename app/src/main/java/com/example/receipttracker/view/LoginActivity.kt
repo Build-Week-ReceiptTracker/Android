@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         }*/
 
         button_login.setOnClickListener {
+            viewModel.hideSoftKeyboard(this)
             probar_login.visibility = View.VISIBLE
             val user = et_username.text.toString()
             val password = et_password.text.toString()

@@ -69,7 +69,10 @@ class MyReceiptsFragment : Fragment() {
                     }else{
                         searchList.clear()
                         receiptsList.forEach {
-                            if (viewModel.isUserStringInReceipt(it, userSearch)) searchList.add(it)
+                            if (viewModel.isUserStringInReceipt(it, userSearch)) {
+                                searchList.add(it)
+                                viewModel.hideSoftKeyboard(this.requireActivity())
+                            }
                         }
                         rv_my_receipts.adapter = ReceiptListAdapter(searchList)
                     }
