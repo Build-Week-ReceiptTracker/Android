@@ -9,4 +9,5 @@ Receipt Tracker allows you to keep track of all your receipts in one conveinent 
 
 ## Contributors
 [Tyler Clawson](https://github.com/tjclawson)
+
 [Justin Gent](https://github.com/justinbgent)
